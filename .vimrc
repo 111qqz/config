@@ -7,7 +7,7 @@ map <F9> :call SaveInputData()<CR>
 func! SaveInputData()
 	exec "tabnew"
 	exec 'normal "+gP'
-	exec "w! code/in.txt"
+	exec "w! ./in.txt"
 endfunc
 
 
@@ -130,7 +130,7 @@ func SetTitle()
 		let l = l + 1 | call setline(l,'int main()')
 		let l = l + 1 | call setline(l,'{')
 		let l = l + 1 | call setline(l,'	#ifndef  ONLINE_JUDGE ')
-		let l = l + 1 | call setline(l,'	freopen("code/in.txt","r",stdin);')
+		let l = l + 1 | call setline(l,'	freopen("./in.txt","r",stdin);')
 		let l = l + 1 | call setline(l,'  #endif')
 		let l = l + 1 | call setline(l,'')
 		let l = l + 1 | call setline(l,'  #ifndef ONLINE_JUDGE  ')
@@ -410,7 +410,6 @@ Plugin 'VundleVim/Vundle.vim'
  Plugin 'morhetz/gruvbox' 
  Plugin 'scrooloose/syntastic'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'w0rp/ale'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
