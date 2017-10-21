@@ -1,0 +1,24 @@
+map <F5> :call Co()<CR>
+func! Co()
+	exec "w"
+	exec "!g++ % -std=gnu++11 -Wall -o %<"
+	exec "! ./%<"
+
+endfunc
+syntax on
+set nu
+
+autocmd BufNewFile *.cpp  exec ":call SetTitle()"
+func SetTitle()
+	let l = 0
+	let l = l + 1 | call setline(l,'#include <bits/stdc++.h>')
+	let l = l + 1 | call setline(l,'using namespace std;')
+	let l = l + 1 | call setline(l,'const int inf = 0x3f3f3f3f;')
+	let l = l + 1 | call setline(l,'#define ms(a,x) memset(a,x,sizeof(a))')
+	let l = l + 1 | call setline(l,'typedef long long LL;')
+	let l = l + 1 | call setline(l,'int main()')
+	let l = l + 1 | call setline(l,'{')
+	let l = l + 1 | call setline(l,'    return 0;')
+	let l = l + 1 | call setline(l,'}')
+
+endfunc
