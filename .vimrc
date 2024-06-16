@@ -90,7 +90,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'fratajczak/one-monokai-vim'
 " Use release branch (recommend)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'justinmk/vim-dirvish'
 
 Plug 'kristijanhusak/vim-dirvish-git'
