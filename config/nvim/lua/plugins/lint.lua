@@ -16,7 +16,18 @@ return {
       }
       vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost', 'InsertLeave' }, {
         group = vim.api.nvim_create_augroup('userlint', { clear = true }),
-        callback = function() require('lint').try_lint() end,
+        callback = function()
+          local linters = lint.linters_by_ft[vim.bo.filetype]
+          if not linters then return end
+          -- 过滤本机上没装的二进制；nvim-lint 不会自动跳过
+          local available = vim.tbl_filter(function(name)
+            local def = lint.linters[name]
+            local cmd = type(def) == 'table' and def.cmd or name
+            cmd = type(cmd) == 'function' and cmd() or cmd
+            return vim.fn.executable(cmd) == 1
+          end, linters)
+          if #available > 0 then lint.try_lint(available) end
+        end,
       })
     end,
   },
