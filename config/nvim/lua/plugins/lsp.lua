@@ -10,13 +10,17 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
+      -- mason 自动安装的工具（仅含 PyPI 之外的；pip 工具用 system PATH:
+      --   basedpyright, ruff, yamllint 由 ~/.local/bin 提供
+      --   clang-format 由 /usr/bin 提供
+      --   cppcheck 由系统包管理器提供（不在 mason registry）)
       require('mason-tool-installer').setup({
         ensure_installed = {
-          'clangd', 'basedpyright', 'lua-language-server', 'bash-language-server',
+          'clangd', 'lua-language-server', 'bash-language-server',
           'marksman', 'json-lsp', 'yaml-language-server', 'taplo',
           'dockerfile-language-server', 'docker-compose-language-service',
-          'clang-format', 'ruff', 'stylua', 'shfmt', 'prettier',
-          'shellcheck', 'markdownlint', 'yamllint', 'hadolint', 'cppcheck',
+          'stylua', 'shfmt', 'prettier',
+          'shellcheck', 'markdownlint', 'hadolint',
         },
         run_on_start = true,
       })
