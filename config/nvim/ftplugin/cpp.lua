@@ -1,0 +1,6 @@
+vim.keymap.set('n', '<F5>', function()
+  vim.cmd('write')
+  local file = vim.fn.expand('%:p')
+  local out = '/tmp/' .. vim.fn.expand('%:t:r')
+  vim.cmd(string.format('!g++ -std=c++20 -O2 -Wall -o %s %s && %s', out, file, out))
+end, { buffer = true, desc = 'compile and run C++' })
