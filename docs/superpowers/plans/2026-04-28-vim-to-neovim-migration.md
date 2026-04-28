@@ -1470,3 +1470,72 @@ git commit -m "docs(nvim): add migration usage to README"
 ---
 
 **计划完成 ✅**
+
+---
+
+## 会话进度笔记（2026-04-28，下次接续用）
+
+### 已完成
+
+| Task | 状态 | Commit |
+|---|---|---|
+| 1. bootstrap init.lua + lazy.nvim | ✅ 完整 | `b39be55` |
+| 2. options.lua | ✅ 完整 | `035832b` |
+| 3. keymaps.lua | ✅ 完整 | `04325b6` |
+| 4. autocmds.lua | ✅ 完整 | `4efc992` |
+| 5. tokyonight | ✅ 完整 | `f483071` |
+| 6. treesitter | ✅ 完整（pinned to `branch='master'` 兼容 nvim 0.10） | `54844fa` |
+| 7. blink.cmp | ✅ 完整 | `2291499` |
+| 8. LSP | ⚠️ **文件已写、mason install 未跑** | `c48d467` |
+
+### 下次开工的接续点
+
+**先确认 lsp.lua 的内容**没有问题，然后从 **Task 8 的 Step 3** 开始：
+
+```bash
+# Step 3：mason 装 20 个工具（耗时 5-10 分钟）
+timeout 600 nvim --headless "+MasonToolsInstall" "+sleep 480" "+qa" 2>&1 | tail -10
+# 如果还有缺失再跑一遍（mason 幂等）
+
+# Step 4：验证 mason 二进制
+ls ~/.local/share/nvim/mason/bin/ 2>/dev/null
+
+# Step 5：验证 clangd 挂上 buffer
+echo 'int main() { return 0; }' > /tmp/lsp_test.cpp
+nvim --headless /tmp/lsp_test.cpp "+sleep 8" "+lua print(#vim.lsp.get_clients({ bufnr = 0 }))" "+qa" 2>&1
+# 期望输出: 1
+```
+
+如 Step 5 输出 0：检查 `~/.local/share/nvim/mason/bin/clangd` 是否存在。如果 `lspconfig[name].setup` 对某些 server 报 "no such server"——已经在 lsp.lua 里加了 pcall 兜底，不会阻塞，只会 warn。
+
+### 待做（Task 9–22）
+
+- 9 telescope（替代 LeaderF，键位 `<C-p>` 等）
+- 10 gitsigns
+- 11 lualine
+- 12 oil.nvim
+- 13 autopairs
+- 14 conform（含 `<F2>` 格式化）
+- 15 nvim-lint
+- 16 which-key
+- 17 log-highlighting
+- 18 avante.nvim
+- 19 ftplugin/cpp.lua（ACM `<F5>`）
+- 20 ftplugin/c.lua
+- 21 删除 `.ycm_extra_conf.py` + `acm_vimrc`
+- 22 端到端验证 + README 更新
+
+每个任务的完整 lua 代码已经在前文（Tasks 9–22 章节）。
+
+### 风险提醒
+
+- **国内网络**：lazy sync / mason install 走 GitHub/npm/pip，必要时 `proxychains nvim ...`
+- **avante.nvim build = make**：需要 cargo（Rust）才能编译 tree-sitter wrapper。如系统没装 rust，Task 18 这步可能 build 失败但**不影响其他功能**（avante 装不上不会让 nvim 启动失败）
+- **mason 国内镜像**：默认走原生源，如太慢可后续配置 `mason.providers`，超出本计划范围
+
+### Git 状态（2026-04-28 收尾时）
+
+- 分支：`nvim-migration`（基于 master，含 Task 1-8 共 8 个 feature commit + 2 个 docs commit = 10 commits ahead of origin/master）
+- 远端：`https://github.com/111qqz/config.git`
+- PR：见 GitHub
+
