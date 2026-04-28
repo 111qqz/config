@@ -19,7 +19,7 @@ return {
           'clangd', 'lua-language-server', 'bash-language-server',
           'marksman', 'json-lsp', 'yaml-language-server', 'taplo',
           'dockerfile-language-server', 'docker-compose-language-service',
-          'stylua', 'shfmt', 'prettier',
+          'shfmt', 'prettier',
           'shellcheck', 'markdownlint', 'hadolint',
         },
         run_on_start = true,
